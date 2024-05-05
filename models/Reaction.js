@@ -22,3 +22,5 @@ const reactsSchema = new Schema({
     },
   },
 });
+
+module.exports = reactsSchema;
