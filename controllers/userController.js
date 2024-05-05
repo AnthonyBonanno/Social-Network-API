@@ -23,6 +23,7 @@ module.exports = {
   
         res.json(user);
       } catch (err) {
+        console.log(err);
         res.status(500).json(err);
       }
     },
@@ -30,6 +31,26 @@ module.exports = {
     async createUser(req, res) {
       try {
         const user = await User.create(req.body);
+        res.json({ user, message: "User successfully created!" });
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    },
+    // Add a friend
+    async addFriend(req, res) {
+      try {
+        const user = await User.findOneAndUpdate(
+          { _id: req.params.userId },
+          { $addToSet: { friends: req.params.friendId } },
+          { runValidators: true, new: true }
+        );
+  
+        if (!user) {
+          return res
+            .status(404)
+            .json({ user, message: 'No user found with that ID' });
+        }
+
         res.json(user);
       } catch (err) {
         res.status(500).json(err);
@@ -45,13 +66,15 @@ module.exports = {
         );
 
         if (!user) {
-          return res.status(404).json({ message: 'No user with that ID' });
+          return res.status(404).json({ user, message: 'No user with that ID' });
         }
+
+        res.json(user);
       } catch (err) {
         res.status(500).json(err);
       }
     },
-    // Delete a user and associated apps
+    // Delete a user and associated thoughts
     async deleteUser(req, res) {
       try {
         const user = await User.findOneAndDelete({ _id: req.params.userId });
@@ -61,10 +84,28 @@ module.exports = {
         }
   
         await Application.deleteMany({ _id: { $in: user.thoughts } });
-        res.json({ message: 'User and associated thoughts deleted!' })
+        res.json({ user, message: 'User and associated thoughts deleted!' })
       } catch (err) {
         res.status(500).json(err);
       }
     },
+    async deleteFriend(req, res) {
+      try {
+        const user = await User.findOneAndUpdate(
+          { _id: req.params.userId },
+          { $pull: { friends: { friendId: req.params.friendId } } }
+        );
+
+        if (!user) {
+          return res.status(404).json({
+            message: "No user with that ID found",
+          });
+        }
+  
+        res.json({ user, message: "Friend successfully deleted" });
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    }
   };
   
