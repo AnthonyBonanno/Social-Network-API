@@ -21,18 +21,20 @@ This makes NoSQL very attractive to businesses that grow quickly, are constantly
 
 ## What did you learn?
 
+How much easier it can be to perform CRUD operations without needing to type long SQL prompts, making it less tedious to solve why a query or transformation hasn't worked.
 
+There is no need to join tables or anything of the like since information is stored in documents, and you can fetch only the data you need for any given CRUD operation. 
+
+NoSQL has several advantages over SQL, which has taught me about its widespreadness in many businesses.
 
 
 ## Screenshots
 
-![alt text]()
+![alt text](https://github.com/AnthonyBonanno/Social-Network-API/blob/main/public/images/image1.PNG)
 
-![alt text]()
+![alt text](https://github.com/AnthonyBonanno/Social-Network-API/blob/main/public/images/image2.PNG)
 
 
-## Link to Git Repo and Demo Video
-
-Git Repo: https://github.com/AnthonyBonanno/Social-Network-API
+## Link to Demo Video
 
 Demo Video: https://drive.google.com/file/d/1ckSSvug6czT5_1pDhYVSAWD5A7BJ0TDE/view?usp=sharing
