@@ -4,9 +4,10 @@ module.exports = {
     // Get all users
     async getUsers(req, res) {
       try {
-        const users = await User.find();
+        const users = await User.find().select('-friends -thoughts');
         res.json(users);
       } catch (err) {
+        console.log(err);
         res.status(500).json(err);
       }
     },
@@ -41,7 +42,7 @@ module.exports = {
       try {
         const user = await User.findOneAndUpdate(
           { _id: req.params.userId },
-          { $addToSet: { friends: req.params.friendId } },
+          { $addToSet: { friends: req.body } },
           { runValidators: true, new: true }
         );
   
@@ -51,8 +52,9 @@ module.exports = {
             .json({ user, message: 'No user found with that ID' });
         }
 
-        res.json(user);
+        res.json({ user, message: "Friend successfully created!" });
       } catch (err) {
+        console.log(err);
         res.status(500).json(err);
       }
     },
@@ -69,7 +71,7 @@ module.exports = {
           return res.status(404).json({ user, message: 'No user with that ID' });
         }
 
-        res.json(user);
+        res.json({ user, message: "User successfully updated!" });
       } catch (err) {
         res.status(500).json(err);
       }
